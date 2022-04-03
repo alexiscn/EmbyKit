@@ -1026,6 +1026,9 @@ public struct PlaybackProgressInfo: Codable, Hashable {
 }
 
 public class EmbyStreamMetadata {
+    
+    public var initialSelectedSourceIndex: Int = 0
+    
     public var sourceInfo: MediaSourceInfo? = nil
     public var audioStream: MediaStream? = nil
     public var subtitleStream: MediaStream? = nil
