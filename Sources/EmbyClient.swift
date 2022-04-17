@@ -165,8 +165,15 @@ extension EmbyClient {
         })
     }
     
+    /// Get current user information.
+    /// - Parameter completion: completion callback.
+    public func getUserInfo(completion: @escaping (Result<EmbyUser, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Users/\(userId)")
+        request(.get, url: url, completion: completion)
+    }
+    
     /// Get user home views.
-    /// - Parameter completion: completion block.
+    /// - Parameter completion: completion callback.
     public func getUserHomeViews(completion: @escaping (Result<ItemsResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Views")
         let params = ["IncludeExternalContent": false]

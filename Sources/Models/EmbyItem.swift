@@ -802,7 +802,7 @@ public struct EmbyUser: Codable {
         case hasConfiguredEasyPassword = "HasConfiguredEasyPassword"
         case lastLoginDate = "LastLoginDate"
         case lastActivityDate = "LastActivityDate"
-//        case configuration = "Configuration"
+        case configuration = "Configuration"
     }
     public let name: String
     public let serverID: String
@@ -812,7 +812,7 @@ public struct EmbyUser: Codable {
     public let hasConfiguredEasyPassword: Bool?
     public let lastLoginDate: String?
     public let lastActivityDate: String?
-    //public let configuration: EmbyUserConfiguration
+    public let configuration: EmbyUserConfiguration?
 }
 
 public struct EmbyUserConfiguration: Codable {
@@ -822,6 +822,8 @@ public struct EmbyUserConfiguration: Codable {
         case enableLocalPassword = "EnableLocalPassword"
         case enableNextEpisodeAutoPlay = "EnableNextEpisodeAutoPlay"
         case hidePlayedInLatest = "HidePlayedInLatest"
+        case latestItemsExcludes = "LatestItemsExcludes"
+        case orderedViews = "OrderedViews"
         case playDefaultAudioTrack = "PlayDefaultAudioTrack"
         case rememberAudioSelections = "RememberAudioSelections"
         case rememberSubtitleSelections = "RememberSubtitleSelections"
@@ -833,6 +835,8 @@ public struct EmbyUserConfiguration: Codable {
     public let enableLocalPassword: Bool?
     public let enableNextEpisodeAutoPlay: Bool?
     public let hidePlayedInLatest: Bool?
+    public let latestItemsExcludes: [String]?
+    public let orderedViews: [String]?
     public let playDefaultAudioTrack: Bool?
     public let rememberAudioSelections: Bool?
     public let rememberSubtitleSelections: Bool?
