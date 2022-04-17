@@ -830,18 +830,18 @@ public struct EmbyUserConfiguration: Codable {
         case subtitleLanguagePreference = "SubtitleLanguagePreference"
         case subtitleMode = "SubtitleMode"
     }
-    public let audioLanguagePreference: String?
-    public let displayMissingEpisodes: Bool?
-    public let enableLocalPassword: Bool?
-    public let enableNextEpisodeAutoPlay: Bool?
-    public let hidePlayedInLatest: Bool?
-    public let latestItemsExcludes: [String]?
-    public let orderedViews: [String]?
-    public let playDefaultAudioTrack: Bool?
-    public let rememberAudioSelections: Bool?
-    public let rememberSubtitleSelections: Bool?
-    public let subtitleLanguagePreference: String?
-    public let subtitleMode: String?
+    public var audioLanguagePreference: String?
+    public var displayMissingEpisodes: Bool?
+    public var enableLocalPassword: Bool?
+    public var enableNextEpisodeAutoPlay: Bool?
+    public var hidePlayedInLatest: Bool?
+    public var latestItemsExcludes: [String]?
+    public var orderedViews: [String]?
+    public var playDefaultAudioTrack: Bool?
+    public var rememberAudioSelections: Bool?
+    public var rememberSubtitleSelections: Bool?
+    public var subtitleLanguagePreference: String?
+    public var subtitleMode: String?
 }
 
 public enum EmbyImageType: String {

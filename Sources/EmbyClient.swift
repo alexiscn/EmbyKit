@@ -176,7 +176,7 @@ extension EmbyClient {
     /// - Parameters:
     ///   - configuration: configuration.
     ///   - completion: completion callback.
-    public func updateUserConfiguration(_ configuration: UserConfiguration, completion: @escaping (Result<Void, Error>) -> Void) {
+    public func updateUserConfiguration(_ configuration: EmbyUserConfiguration, completion: @escaping (Result<Void, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Configuration")
         
         var json = [String: Any]()
