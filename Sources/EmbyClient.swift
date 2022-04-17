@@ -172,6 +172,41 @@ extension EmbyClient {
         request(.get, url: url, completion: completion)
     }
     
+    /// Update user configurations.
+    /// - Parameters:
+    ///   - configuration: configuration.
+    ///   - completion: completion callback.
+    public func updateUserConfiguration(_ configuration: UserConfiguration, completion: @escaping (Result<Void, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Users/\(userId)/Configuration")
+        
+        var json = [String: Any]()
+        
+        if let data = try? JSONEncoder().encode(configuration),
+            let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+            json = dict
+        }
+        
+        var httpheaders = [String: String]()
+        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        if let token = accessToken {
+            httpheaders["X-Emby-Token"] = token
+        }
+        Just.post(url, json: json, headers: httpheaders, asyncCompletionHandler: { result in
+            if let error = result.error {
+                completion(.failure(error))
+            } else {
+                if let text = result.text, !text.isEmpty {
+                    completion(.failure(NSError(domain: "filebox", code: -1, userInfo: [
+                        NSLocalizedFailureReasonErrorKey: text,
+                        NSLocalizedFailureErrorKey: ""
+                    ])))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        })
+    }
+    
     /// Get user home views.
     /// - Parameter completion: completion callback.
     public func getUserHomeViews(completion: @escaping (Result<ItemsResponse, Error>) -> Void) {
