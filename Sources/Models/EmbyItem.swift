@@ -823,6 +823,7 @@ public struct EmbyUserConfiguration: Codable {
         case enableNextEpisodeAutoPlay = "EnableNextEpisodeAutoPlay"
         case hidePlayedInLatest = "HidePlayedInLatest"
         case latestItemsExcludes = "LatestItemsExcludes"
+        case myMediaExcludes = "MyMediaExcludes"
         case orderedViews = "OrderedViews"
         case playDefaultAudioTrack = "PlayDefaultAudioTrack"
         case rememberAudioSelections = "RememberAudioSelections"
@@ -836,6 +837,7 @@ public struct EmbyUserConfiguration: Codable {
     public var enableNextEpisodeAutoPlay: Bool?
     public var hidePlayedInLatest: Bool?
     public var latestItemsExcludes: [String]?
+    public var myMediaExcludes: [String]?
     public var orderedViews: [String]?
     public var playDefaultAudioTrack: Bool?
     public var rememberAudioSelections: Bool?
