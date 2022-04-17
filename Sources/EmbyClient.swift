@@ -150,16 +150,18 @@ extension EmbyClient {
         }
         
         Just.post(url, json: json, headers: httpheaders, asyncCompletionHandler: { result in
-            if let error = result.error {
-                completion(.failure(error))
-            } else {
-                if let text = result.text, !text.isEmpty {
-                    completion(.failure(NSError(domain: "filebox", code: -1, userInfo: [
-                        NSLocalizedFailureReasonErrorKey: text,
-                        NSLocalizedFailureErrorKey: ""
-                    ])))
+            DispatchQueue.main.async {
+                if let error = result.error {
+                    completion(.failure(error))
                 } else {
-                    completion(.success(()))
+                    if let text = result.text, !text.isEmpty {
+                        completion(.failure(NSError(domain: "filebox", code: -1, userInfo: [
+                            NSLocalizedFailureReasonErrorKey: text,
+                            NSLocalizedFailureErrorKey: ""
+                        ])))
+                    } else {
+                        completion(.success(()))
+                    }
                 }
             }
         })
@@ -192,16 +194,18 @@ extension EmbyClient {
             httpheaders["X-Emby-Token"] = token
         }
         Just.post(url, json: json, headers: httpheaders, asyncCompletionHandler: { result in
-            if let error = result.error {
-                completion(.failure(error))
-            } else {
-                if let text = result.text, !text.isEmpty {
-                    completion(.failure(NSError(domain: "filebox", code: -1, userInfo: [
-                        NSLocalizedFailureReasonErrorKey: text,
-                        NSLocalizedFailureErrorKey: ""
-                    ])))
+            DispatchQueue.main.async {
+                if let error = result.error {
+                    completion(.failure(error))
                 } else {
-                    completion(.success(()))
+                    if let text = result.text, !text.isEmpty {
+                        completion(.failure(NSError(domain: "filebox", code: -1, userInfo: [
+                            NSLocalizedFailureReasonErrorKey: text,
+                            NSLocalizedFailureErrorKey: ""
+                        ])))
+                    } else {
+                        completion(.success(()))
+                    }
                 }
             }
         })
