@@ -218,7 +218,7 @@ extension EmbyClient {
     public func getUserHomeViews(params: [String: Any] = [:], completion: @escaping (Result<ItemsResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Views")
         var parameters = params
-        parameters = ["IncludeExternalContent": false]
+        parameters["IncludeExternalContent"] = false
         request(.get, url: url, params: parameters, completion: completion)
     }
     
