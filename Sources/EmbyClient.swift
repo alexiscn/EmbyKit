@@ -212,11 +212,14 @@ extension EmbyClient {
     }
     
     /// Get user home views.
-    /// - Parameter completion: completion callback.
-    public func getUserHomeViews(completion: @escaping (Result<ItemsResponse, Error>) -> Void) {
+    /// - Parameters:
+    ///   - params: additional params.
+    ///   - completion: completion callback.
+    public func getUserHomeViews(params: [String: Any] = [:], completion: @escaping (Result<ItemsResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Views")
-        let params = ["IncludeExternalContent": false]
-        request(.get, url: url, params: params, completion: completion)
+        var parameters = params
+        parameters = ["IncludeExternalContent": false]
+        request(.get, url: url, params: parameters, completion: completion)
     }
     
     /// Get user resume item with media type.
