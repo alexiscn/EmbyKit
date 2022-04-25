@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "Just",
-        "repositoryURL": "https://github.com/dduan/Just",
+        "repositoryURL": "https://github.com/alexiscn/Just",
         "state": {
           "branch": "master",
           "revision": "be341d3df1102954339ce04b7f99f6a952535b9f",

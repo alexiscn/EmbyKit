@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "EmbyKit", targets: ["EmbyKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/dduan/Just", branch: "master")
+        .package(url: "https://github.com/alexiscn/Just", branch: "master")
     ],
     targets: [
         .target(name: "EmbyKit", dependencies: ["Just"], path: "Sources"),
