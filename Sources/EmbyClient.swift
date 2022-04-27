@@ -424,6 +424,18 @@ extension EmbyClient {
     
 }
 
+// MARK: - Video
+extension EmbyClient {
+    
+    public func getAdditionalVideoParts(itemId: String, params: [String: Any], completion: @escaping EmbyListCompletion) {
+        let url = baseURL.appendingPathComponent("Videos/\(itemId)/AdditionalParts")
+        var parameters = params
+        parameters["UserId"] = userId
+        request(.get, url: url, params: params, completion: completion)
+    }
+    
+}
+
 // MARK: - Genres
 extension EmbyClient {
     
