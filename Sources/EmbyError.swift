@@ -9,13 +9,16 @@ import Foundation
 import Just
 
 public enum EmbyError: LocalizedError {
-    case serverError(String)
+    case serverError(HTTPResult)
     case jsonDecodeError(HTTPResult)
     
     public var errorDescription: String? {
         switch self {
-        case .serverError(let message):
-            return message
+        case .serverError(let response):
+            if let statusCode = response.statusCode {
+                return "\(statusCode) - " + HTTPURLResponse.localizedString(forStatusCode: statusCode)
+            }
+            return response.text ?? "Unknown Error"
         case .jsonDecodeError(let result):
             #if DEBUG
             return "JSON Decode Error: \(result.text ?? "")"

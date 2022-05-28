@@ -591,11 +591,11 @@ extension EmbyClient {
             }
             completion(.failure(err))
         } else {
-            if response.json == nil, let text = response.text {
+            if response.json == nil, response.text != nil {
                 if response.statusCode == 401 {
                     accessTokenInvalidHandler?()
                 }
-                completion(.failure(EmbyError.serverError(text)))
+                completion(.failure(EmbyError.serverError(response)))
             } else {
                 if let content = response.content {
                     do {
