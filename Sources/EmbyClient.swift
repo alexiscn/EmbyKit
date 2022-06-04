@@ -109,6 +109,17 @@ public class EmbyClient {
                     completion(.failure(error))
                 } else if result.ok {
                     completion(.success(true))
+                } else if let code = result.statusCode {
+                    let message = HTTPURLResponse.localizedString(forStatusCode: code)
+                    let error = NSError(domain: "", code: code, userInfo: [
+                        NSLocalizedFailureErrorKey: message
+                    ])
+                    completion(.failure(error))
+                } else {
+                    let error = NSError(domain: "", code: -1, userInfo: [
+                        NSLocalizedFailureErrorKey: "unknown error"
+                    ])
+                    completion(.failure(error))
                 }
             }
         })
