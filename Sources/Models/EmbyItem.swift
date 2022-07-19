@@ -205,7 +205,7 @@ public class EmbyItem: Codable, Hashable {
     public var type: String?
     public var people: [EmbyPeople]?
     public var studios: [NameLongIdPair]?
-    public var tagItems: [NameIdPair]?
+    public var tagItems: [NameLongIdPair]?
     public var genreItems: [NameLongIdPair]?
     public var parentLogoItemId: String?
     public var parentBackdropItemId: String?
@@ -361,7 +361,7 @@ public struct MediaUrl: Codable {
     public let url: String?
 }
 
-public struct NameLongIdPair: Codable {
+public struct NameLongIdPair: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case id = "Id"
