@@ -64,6 +64,7 @@ public class EmbyItem: Codable, Hashable {
         case type = "Type"
         case people = "People"
         case studios = "Studios"
+        case tagItems = "TagItems"
         case genreItems = "GenreItems"
         case parentLogoItemId = "ParentLogoItemId"
         case parentBackdropItemId = "ParentBackdropItemId"
@@ -204,6 +205,7 @@ public class EmbyItem: Codable, Hashable {
     public var type: String?
     public var people: [EmbyPeople]?
     public var studios: [NameLongIdPair]?
+    public var tagItems: [NameIdPair]?
     public var genreItems: [NameLongIdPair]?
     public var parentLogoItemId: String?
     public var parentBackdropItemId: String?
