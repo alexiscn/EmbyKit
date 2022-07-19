@@ -383,7 +383,7 @@ public struct NameLongIdPair: Codable {
     }
 }
 
-public struct NameIdPair: Codable {
+public struct NameIdPair: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case id = "Id"
