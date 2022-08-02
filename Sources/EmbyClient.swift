@@ -345,6 +345,11 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getItemSpecialFeatures(itemId: String, completion: @escaping EmbyItemsCompletion) {
+        let url = baseURL.appendingPathComponent("Users/\(userId)/Items/\(itemId)/SpecialFeatures")
+        request(.get, url: url, completion: completion)
+    }
+    
     public func thumbnailURL(of item: EmbyItem, maxWidth: Int, maxHeight: Int) -> URL? {
         let url = baseURL.appendingPathComponent("Items/\(item.id)/Images")
         let urlString: String
