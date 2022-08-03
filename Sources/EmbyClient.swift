@@ -352,7 +352,7 @@ extension EmbyClient {
     
     public func getRecommendations(params: [String: Any], completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Movies/Recommendations")
-        request(.get, url: url, completion: completion)
+        request(.get, url: url, params: params, completion: completion)
     }
     
     public func thumbnailURL(of item: EmbyItem, maxWidth: Int, maxHeight: Int) -> URL? {
