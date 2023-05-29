@@ -143,6 +143,24 @@ extension EmbyClient {
         request(.post, url: url, json: json, completion: completion)
     }
     
+    /// authenticate using username and password
+    /// - Parameters:
+    ///   - username: username.
+    ///   - password: password.
+    /// - Returns: `AuthenticationResponse` object.
+    public func authenticate(username: String, password: String) async throws -> AuthenticationResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            authenticate(username: username, password: password) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     /// Update user password.
     /// - Parameters:
     ///   - currentPassword: current password.
@@ -178,11 +196,43 @@ extension EmbyClient {
         })
     }
     
+    /// Update user password.
+    /// - Parameters:
+    ///   - currentPassword: current password.
+    ///   - newPassword: new password.
+    public func updatePassword(currentPassword: String, newPassword: String) async throws {
+        try await withCheckedThrowingContinuation({ continuation in
+            updatePassword(currentPassword: currentPassword, newPassword: newPassword) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     /// Get current user information.
     /// - Parameter completion: completion callback.
     public func getUserInfo(completion: @escaping (Result<EmbyUser, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)")
         request(.get, url: url, completion: completion)
+    }
+    
+    /// Get current user information.
+    /// - Returns: `EmbyUser` object.
+    public func getUserInfo() async throws -> EmbyUser {
+        try await withCheckedThrowingContinuation({ continuation in
+            getUserInfo { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
     }
     
     /// Update user configurations.
@@ -233,6 +283,22 @@ extension EmbyClient {
         request(.get, url: url, params: parameters, completion: completion)
     }
     
+    /// Get user home views.
+    /// - Parameter params: additional params.
+    /// - Returns: return home views response.
+    public func getUserHomeViews(params: [String: Any]) async throws -> ItemsResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            getUserHomeViews(params: params) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     /// Get user resume item with media type.
     /// - Parameters:
     ///   - mediaType: media type.
@@ -243,6 +309,24 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    /// Get user resume item with media type.
+    /// - Parameters:
+    ///   - mediaType: media type.
+    ///   - params: additional parameters.
+    /// - Returns: return resume items.
+    public func getResumeItems(mediaType: MediaType, params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            getResumeItems(mediaType: mediaType, params: params) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     /// Get user latest items.
     /// - Parameters:
     ///   - params: additional parameters.
@@ -250,6 +334,22 @@ extension EmbyClient {
     public func getLatestItems(params: [String: Any], completion: @escaping EmbyItemsCompletion) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items/Latest")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    /// Get user latest items.
+    /// - Parameter params: additional parameters.
+    /// - Returns: return user latest items.
+    public func getLatestItems(params: [String: Any]) async throws -> [EmbyItem] {
+        try await withCheckedThrowingContinuation({ continuation in
+            getLatestItems(params: params) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
     }
     
     /// Get Emby item detail response.
@@ -273,6 +373,19 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getItems(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            getItems(params: params) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     public func updateFavoriteStatus(itemId: String, isFavorite: Bool, completion: @escaping (Result<String, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/FavoriteItems/\(itemId)")
         let method: HTTPMethod = isFavorite ? .post: .delete
@@ -288,6 +401,24 @@ extension EmbyClient {
         let url = baseURL.appendingPathComponent("Users/\(userId)/PlayedItems/\(itemId)")
         let method: HTTPMethod = asPlayed ? .post: .delete
         request(method, url: url, completion: completion)
+    }
+    
+    /// Mark item as played.
+    /// - Parameters:
+    ///   - itemId: ItemId.
+    ///   - asPlayed: played.
+    /// - Returns: mark played result.
+    public func markPlayed(itemId: String, asPlayed: Bool = true) async throws -> MarkPlayedResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            markPlayed(itemId: itemId, asPlayed: asPlayed) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
     }
     
     public func getAlbums(parentId: String, startIndex: Int, completion: @escaping (Result<ListItemResponse, Error>) -> Void) {
@@ -343,6 +474,24 @@ extension EmbyClient {
     public func getSimilarItems(itemId: String, params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Items/\(itemId)/Similar")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    /// Get similar items of some emby item.
+    /// - Parameters:
+    ///   - itemId: itemId.
+    ///   - params: additional parameters.
+    /// - Returns: return `ListItemResponse` object.
+    public func getSimilarItems(itemId: String, params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation({ continuation in
+            getSimilarItems(itemId: itemId, params: params) { result in
+                switch result {
+                case .success(let object):
+                    continuation.resume(returning: object)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
     }
     
     public func getItemSpecialFeatures(itemId: String, completion: @escaping EmbyItemsCompletion) {
@@ -454,6 +603,7 @@ extension EmbyClient {
         parameters["UserId"] = userId
         request(.get, url: url, params: params, completion: completion)
     }
+    
     
 }
 

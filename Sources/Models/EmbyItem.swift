@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class EmbyItem: Codable, Hashable {
+public class EmbyItem: Codable, Hashable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case originalTitle = "OriginalTitle"
