@@ -438,13 +438,13 @@ extension EmbyClient {
         request(.post, url: url, params: params, completion: completion)
     }
     
-    public func getStreamInfo(itemId: String, startTimeTicks: Int64, streamMetadata: EmbyStreamMetadata, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
+    public func getStreamInfo(itemId: String, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool,  streamMetadata: EmbyStreamMetadata, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(itemId)/PlaybackInfo")
         var params: [String: Any] = [:]
         params["UserId"] = userId
         params["StartTimeTicks"] = startTimeTicks
-        params["IsPlayback"] = true
-        params["AutoOpenLiveStream"] = true
+        params["IsPlayback"] = isPlayback
+        params["AutoOpenLiveStream"] = autoOpenLiveStream
         params["MaxStreamingBitrate"] = 42000000
         if let sourceId = streamMetadata.sourceInfo?.id {
             params["MediaSourceId"] = sourceId
