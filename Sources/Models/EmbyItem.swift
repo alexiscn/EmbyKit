@@ -630,7 +630,9 @@ public struct MediaStream: Codable, Hashable {
     public var level: Double?
     public var isAnamorphic: Bool?
     
-    public static let off = MediaStream(displayTitle: "off", type: "Subtitle", index: -1)
+    public init() {
+        
+    }
 }
 
 public struct SearchHint: Codable {
