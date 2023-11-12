@@ -421,6 +421,11 @@ extension EmbyClient {
         })
     }
     
+    public func deleteItem(itemId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Items/\(itemId)/Delete")
+        request(.post, url: url, completion: completion)
+    }
+    
     public func getAlbums(parentId: String, startIndex: Int, completion: @escaping (Result<ListItemResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
         var params: [String: Any] = [:]
