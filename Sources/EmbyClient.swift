@@ -421,9 +421,22 @@ extension EmbyClient {
         })
     }
     
-    public func deleteItem(itemId: String, completion: @escaping (Result<String, Error>) -> Void) {
+    public func deleteItem(itemId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(itemId)/Delete")
-        request(.post, url: url, completion: completion)
+        var httpheaders = [String: String]()
+        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        if let token = accessToken {
+            httpheaders["X-Emby-Token"] = token
+        }
+        Just.request(.post, url: url, headers: httpheaders, asyncCompletionHandler: { response in
+            DispatchQueue.main.async {
+                if let error = response.error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        })
     }
     
     public func getAlbums(parentId: String, startIndex: Int, completion: @escaping (Result<ListItemResponse, Error>) -> Void) {
