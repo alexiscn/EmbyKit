@@ -386,7 +386,7 @@ extension EmbyClient {
         })
     }
     
-    public func updateFavoriteStatus(itemId: String, isFavorite: Bool, completion: @escaping (Result<String, Error>) -> Void) {
+    public func updateFavoriteStatus(itemId: String, isFavorite: Bool, completion: @escaping (Result<UpdateFavoriteStatusResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/FavoriteItems/\(itemId)")
         let method: HTTPMethod = isFavorite ? .post: .delete
         request(method, url: url, completion: completion)
@@ -834,4 +834,10 @@ extension EmbyClient {
 
 public func secondsFromEmbyTicks(_ ticks: Int64) -> Int64 {
     return ticks / 10_000_000
+}
+
+/// Type representing an empty value. Use `Empty.value` to get the static instance.
+public struct Empty: Codable {
+    /// Static `Empty` instance used for all `Empty` responses.
+    public static let value = Empty()
 }
