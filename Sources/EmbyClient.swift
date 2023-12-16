@@ -647,9 +647,35 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getEpisodes(showId: String, params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            getEpisodes(showId: showId, params: params) { result in
+                switch result {
+                case .success(let response):
+                    continutation.resume(returning: response)
+                case .failure(let error):
+                    continutation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
     public func getSeasons(itemId: String, params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Shows/\(itemId)/Seasons")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getSeasons(itemId: String, params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            getSeasons(itemId: itemId, params: params) { result in
+                switch result {
+                case .success(let response):
+                    continutation.resume(returning: response)
+                case .failure(let error):
+                    continutation.resume(throwing: error)
+                }
+            }
+        }
     }
     
     /// Get upcoming espisodes.
@@ -661,6 +687,19 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getUpcomingEpisodes(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            getUpcomingEpisodes(params: params) { result in
+                switch result {
+                case .success(let response):
+                    continutation.resume(returning: response)
+                case .failure(let error):
+                    continutation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
     /// Get next up shows.
     /// - Parameters:
     ///   - params: parameters.
@@ -668,6 +707,19 @@ extension EmbyClient {
     public func getNextUpEpisodes(params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Shows/NextUp")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getNextUpEpisodes(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continutation in
+            getNextUpEpisodes(params: params) { result in
+                switch result {
+                case .success(let response):
+                    continutation.resume(returning: response)
+                case .failure(let error):
+                    continutation.resume(throwing: error)
+                }
+            }
+        }
     }
 }
 
