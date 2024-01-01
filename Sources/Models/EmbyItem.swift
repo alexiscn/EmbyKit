@@ -807,6 +807,7 @@ public struct EmbyUser: Codable {
         case lastLoginDate = "LastLoginDate"
         case lastActivityDate = "LastActivityDate"
         case configuration = "Configuration"
+        case primaryImageTag = "PrimaryImageTag"
     }
     public let name: String
     public let serverID: String
@@ -817,6 +818,7 @@ public struct EmbyUser: Codable {
     public let lastLoginDate: String?
     public let lastActivityDate: String?
     public let configuration: EmbyUserConfiguration?
+    public let primaryImageTag: String?
 }
 
 public struct EmbyUserConfiguration: Codable {
