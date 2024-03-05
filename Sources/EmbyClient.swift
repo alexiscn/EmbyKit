@@ -37,6 +37,9 @@ public class EmbyClient {
     /// Currtent login user identifier
     public var userId = ""
     
+    /// Additional identifier.
+    public var additionalIdentifier = ""
+    
     /// Called when access token is invalid
     public var accessTokenInvalidHandler: (() -> Void)?
     
