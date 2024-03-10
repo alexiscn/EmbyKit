@@ -154,12 +154,7 @@ extension EmbyClient {
     public func authenticate(username: String, password: String) async throws -> AuthenticationResponse {
         try await withCheckedThrowingContinuation({ continuation in
             authenticate(username: username, password: password) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -206,12 +201,7 @@ extension EmbyClient {
     public func updatePassword(currentPassword: String, newPassword: String) async throws {
         try await withCheckedThrowingContinuation({ continuation in
             updatePassword(currentPassword: currentPassword, newPassword: newPassword) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -228,12 +218,7 @@ extension EmbyClient {
     public func getUserInfo() async throws -> EmbyUser {
         try await withCheckedThrowingContinuation({ continuation in
             getUserInfo { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -292,14 +277,22 @@ extension EmbyClient {
     public func getUserHomeViews(params: [String: Any]) async throws -> ItemsResponse {
         try await withCheckedThrowingContinuation({ continuation in
             getUserHomeViews(params: params) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
+    }
+    
+    public func getDisplayPreferencesUserStrings(completion: @escaping (Result<EmbyDisplayPreferencesUserSettings, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("DisplayPreferences/usersettings?userId=\(userId)")
+        request(.get, url: url, completion: completion)
+    }
+    
+    public func getDisplayPreferencesUserStrings() async throws -> EmbyDisplayPreferencesUserSettings {
+        try await withCheckedThrowingContinuation { continuation in
+            getDisplayPreferencesUserStrings { result in
+                continuation.resume(with: result)
+            }
+        }
     }
     
     /// Get user resume item with media type.
@@ -320,12 +313,7 @@ extension EmbyClient {
     public func getResumeItems(mediaType: MediaType, params: [String: Any]) async throws -> ListItemResponse {
         try await withCheckedThrowingContinuation({ continuation in
             getResumeItems(mediaType: mediaType, params: params) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -345,12 +333,7 @@ extension EmbyClient {
     public func getLatestItems(params: [String: Any]) async throws -> [EmbyItem] {
         try await withCheckedThrowingContinuation({ continuation in
             getLatestItems(params: params) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -379,12 +362,7 @@ extension EmbyClient {
     public func getItems(params: [String: Any]) async throws -> ListItemResponse {
         try await withCheckedThrowingContinuation({ continuation in
             getItems(params: params) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -414,12 +392,7 @@ extension EmbyClient {
     public func markPlayed(itemId: String, asPlayed: Bool = true) async throws -> MarkPlayedResponse {
         try await withCheckedThrowingContinuation({ continuation in
             markPlayed(itemId: itemId, asPlayed: asPlayed) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -505,12 +478,7 @@ extension EmbyClient {
     public func getSimilarItems(itemId: String, params: [String: Any]) async throws -> ListItemResponse {
         try await withCheckedThrowingContinuation({ continuation in
             getSimilarItems(itemId: itemId, params: params) { result in
-                switch result {
-                case .success(let object):
-                    continuation.resume(returning: object)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         })
     }
@@ -651,14 +619,9 @@ extension EmbyClient {
     }
     
     public func getEpisodes(showId: String, params: [String: Any]) async throws -> ListItemResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             getEpisodes(showId: showId, params: params) { result in
-                switch result {
-                case .success(let response):
-                    continutation.resume(returning: response)
-                case .failure(let error):
-                    continutation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }
@@ -669,14 +632,9 @@ extension EmbyClient {
     }
     
     public func getSeasons(itemId: String, params: [String: Any]) async throws -> ListItemResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             getSeasons(itemId: itemId, params: params) { result in
-                switch result {
-                case .success(let response):
-                    continutation.resume(returning: response)
-                case .failure(let error):
-                    continutation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }
@@ -691,14 +649,9 @@ extension EmbyClient {
     }
     
     public func getUpcomingEpisodes(params: [String: Any]) async throws -> ListItemResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             getUpcomingEpisodes(params: params) { result in
-                switch result {
-                case .success(let response):
-                    continutation.resume(returning: response)
-                case .failure(let error):
-                    continutation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }
@@ -713,14 +666,9 @@ extension EmbyClient {
     }
     
     public func getNextUpEpisodes(params: [String: Any]) async throws -> ListItemResponse {
-        try await withCheckedThrowingContinuation { continutation in
+        try await withCheckedThrowingContinuation { continuation in
             getNextUpEpisodes(params: params) { result in
-                switch result {
-                case .success(let response):
-                    continutation.resume(returning: response)
-                case .failure(let error):
-                    continutation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }

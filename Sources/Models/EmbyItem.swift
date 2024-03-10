@@ -1049,3 +1049,18 @@ public class EmbyStreamMetadata {
         
     }
 }
+
+public struct EmbyDisplayPreferencesUserSettings: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case sortOrder = "SortOrder"
+        case customPrefs = "CustomPrefs"
+        case client = "Client"
+    }
+    
+    public let id: String
+    public var customPrefs: [String: String]?
+    public var sortOrder: String?
+    public var client: String?
+}
