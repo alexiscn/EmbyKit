@@ -283,8 +283,8 @@ extension EmbyClient {
     }
     
     public func getDisplayPreferencesUserStrings(completion: @escaping (Result<EmbyDisplayPreferencesUserSettings, Error>) -> Void) {
-        let url = baseURL.appendingPathComponent("DisplayPreferences/usersettings?userId=\(userId)")
-        request(.get, url: url, completion: completion)
+        let url = baseURL.appendingPathComponent("DisplayPreferences/usersettings")
+        request(.get, url: url, params: ["userId": userId], completion: completion)
     }
     
     public func getDisplayPreferencesUserStrings() async throws -> EmbyDisplayPreferencesUserSettings {
