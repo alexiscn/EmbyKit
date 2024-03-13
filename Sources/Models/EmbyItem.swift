@@ -339,7 +339,7 @@ public enum MediaType: String {
     case photo = "Photo"
 }
 
-public struct ExternalUrl: Codable, Hashable {
+public struct ExternalUrl: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case url = "Url"
@@ -352,7 +352,7 @@ public struct ExternalUrl: Codable, Hashable {
     }
 }
 
-public struct MediaUrl: Codable {
+public struct MediaUrl: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case url = "Url"
@@ -361,7 +361,7 @@ public struct MediaUrl: Codable {
     public let url: String?
 }
 
-public struct NameLongIdPair: Codable, Hashable {
+public struct NameLongIdPair: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case id = "Id"
@@ -383,7 +383,7 @@ public struct NameLongIdPair: Codable, Hashable {
     }
 }
 
-public struct NameIdPair: Codable, Hashable {
+public struct NameIdPair: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case id = "Id"
@@ -392,7 +392,7 @@ public struct NameIdPair: Codable, Hashable {
     public let id: String
 }
 
-public struct ChapterInfo: Codable {
+public struct ChapterInfo: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case startPositionTicks = "StartPositionTicks"
         case name = "Name"
@@ -403,7 +403,7 @@ public struct ChapterInfo: Codable {
     public let imageTag: String?
 }
 
-public struct EmbyPeople: Codable, Hashable {
+public struct EmbyPeople: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id = "Id"
         case name = "Name"
@@ -418,7 +418,7 @@ public struct EmbyPeople: Codable, Hashable {
     public let type: String
 }
 
-public struct UserData: Codable {
+public struct UserData: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case rating = "Ratring"
         case playedPercentage = "PlayedPercentage"
@@ -635,7 +635,7 @@ public struct MediaStream: Codable, Hashable, Sendable {
     }
 }
 
-public struct SearchHint: Codable {
+public struct SearchHint: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case itemId = "ItemId"
         case id = "Id"
@@ -697,7 +697,7 @@ public struct SearchHint: Codable {
     public let primaryImageAspectRatio: Double?
 }
 
-public struct SystemInfo: Codable {
+public struct SystemInfo: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case systemUpdateLevel = "SystemUpdateLevel"
         case operatingSystemDisplayName = "OperatingSystemDisplayName"
@@ -761,7 +761,7 @@ public struct SystemInfo: Codable {
     public let id: String?
 }
 
-public struct SessionInfo: Codable {
+public struct SessionInfo: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case additionalUsers = "AdditionalUsers"
         case remoteEndPoint = "RemoteEndPoint"
@@ -796,7 +796,7 @@ public struct SessionInfo: Codable {
     public let supportsRemoteControl: Bool?
 }
 
-public struct EmbyUser: Codable {
+public struct EmbyUser: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case serverID = "ServerId"
@@ -821,7 +821,7 @@ public struct EmbyUser: Codable {
     public let primaryImageTag: String?
 }
 
-public struct EmbyUserConfiguration: Codable {
+public struct EmbyUserConfiguration: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case audioLanguagePreference = "AudioLanguagePreference"
         case displayMissingEpisodes = "DisplayMissingEpisodes"
@@ -852,7 +852,7 @@ public struct EmbyUserConfiguration: Codable {
     public var subtitleMode: String?
 }
 
-public enum EmbyImageType: String {
+public enum EmbyImageType: String, Sendable {
     case thumb = "Thumb"
     case banner = "Banner"
     case disc = "Disc"
@@ -862,19 +862,19 @@ public enum EmbyImageType: String {
     case chapter = "Chapter"
 }
 
-public enum EmbyPlayMethod: String, Codable {
+public enum EmbyPlayMethod: String, Codable, Sendable {
     case transcode = "Transcode"
     case directStream = "DirectStream"
     case directPlay = "DirectPlay"
 }
 
-public enum EmbyRepeatMode: String, Codable {
+public enum EmbyRepeatMode: String, Codable, Sendable {
     case repeatNone = "RepeatNone"
     case repeatAll = "RepeatAll"
     case repeatOne = "RepeatOne"
 }
 
-public struct EmbyQueueItem: Codable, Hashable {
+public struct EmbyQueueItem: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey, CaseIterable {
         case id = "Id"
         case playlistItemId = "PlaylistItemId"
@@ -887,13 +887,13 @@ public struct EmbyQueueItem: Codable, Hashable {
     }
 }
 
-public enum EmbyEventName: String, Codable {
+public enum EmbyEventName: String, Codable, Sendable {
     case timeUpdate = "timeupdate"
     case pause = "pause"
     case unpause = "unpause"
 }
 
-public struct PlaybackStartInfo: Codable, Hashable {
+public struct PlaybackStartInfo: Codable, Hashable, Sendable {
     
     enum CodingKeys: String, CodingKey, CaseIterable {
         case volumeLevel = "VolumeLevel"
@@ -942,7 +942,7 @@ public struct PlaybackStartInfo: Codable, Hashable {
     }
 }
 
-public struct PlaybackStopInfo: Codable, Hashable {
+public struct PlaybackStopInfo: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey, CaseIterable {
         case volumeLevel = "VolumeLevel"
         case isMuted = "IsMuted"
@@ -990,7 +990,7 @@ public struct PlaybackStopInfo: Codable, Hashable {
     }
 }
 
-public struct PlaybackProgressInfo: Codable, Hashable {
+public struct PlaybackProgressInfo: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case volumeLevel = "VolumeLevel"
         case isMuted = "IsMuted"
@@ -1050,7 +1050,7 @@ public class EmbyStreamMetadata {
     }
 }
 
-public struct EmbyDisplayPreferencesUserSettings: Codable {
+public struct EmbyDisplayPreferencesUserSettings: Codable, Sendable {
     
     enum CodingKeys: String, CodingKey {
         case id = "Id"
