@@ -295,6 +295,26 @@ extension EmbyClient {
         }
     }
     
+    public func getNextUp(completion: @escaping EmbyListCompletion) {
+        let url = baseURL.appendingPathComponent("Shows/NextUp")
+        var params = [String: Any]()
+        params["LegacyNextUp"] = true
+        params["Fields"] = "BasicSyncInfo,CanDelete,PrimaryImageAspectRatio,ProductionYear,SeriesInfo,DateCreated"
+        params["ImageTypeLimit"] = 1
+        params["EnableImageTypes"] = "Primary,Backdrop,Thumb"
+        params["UserId"] = userId
+        params["Limit"] = 12
+        request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getNextup() async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getNextUp { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     /// Get user resume item with media type.
     /// - Parameters:
     ///   - mediaType: media type.
