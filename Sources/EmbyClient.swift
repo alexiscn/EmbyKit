@@ -23,7 +23,7 @@ public typealias EmbyItemsCompletion = (Result<[EmbyItem], Error>) -> Void
 /// `let client = EmbyClient(baseURL: URL(string: "http://example.com:8096")!)`
 ///
 /// ```
-public class EmbyClient {
+public struct EmbyClient: Sendable {
     
     private static var hasConfigured = false
     private static var client = ""
@@ -41,7 +41,7 @@ public class EmbyClient {
     public var additionalIdentifier = ""
     
     /// Called when access token is invalid
-    public var accessTokenInvalidHandler: (() -> Void)?
+    public var accessTokenInvalidHandler: (@Sendable () -> Void)?
     
     /// Access token of current
     public var accessToken: String? = nil
@@ -64,7 +64,7 @@ public class EmbyClient {
         configureAuthorizationHeader()
     }
     
-    private func configureAuthorizationHeader() {
+    private mutating func configureAuthorizationHeader() {
         let guid = UUID().uuidString
         var list = [String]()
         list.append(String(format: "Emby UserId=%@", userId.isEmpty ? guid : userId))
