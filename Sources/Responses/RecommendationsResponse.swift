@@ -9,7 +9,7 @@ import Foundation
 
 public typealias RecommendationsResponse = [RecommendationSection]
 
-public struct RecommendationSection: Codable {
+public struct RecommendationSection: Codable, Sendable {
     
     public enum CodingKeys: String, CodingKey {
         case baselineItemName = "BaselineItemName"

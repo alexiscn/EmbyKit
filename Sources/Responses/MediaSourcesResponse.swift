@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MediaSourcesResponse: Codable {
+public struct MediaSourcesResponse: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case mediaSources = "MediaSources"
         case playSessionId = "PlaySessionId"

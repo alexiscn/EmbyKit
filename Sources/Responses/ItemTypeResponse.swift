@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct ItemTypeResponse: Codable {
+public struct ItemTypeResponse: Codable, Sendable {
     
-    public struct Item: Codable {
+    public struct Item: Codable, Sendable {
         enum CodingKeys: String, CodingKey {
             case name = "Name"
         }

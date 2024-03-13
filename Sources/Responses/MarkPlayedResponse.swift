@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MarkPlayedResponse: Codable {
+public struct MarkPlayedResponse: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case playbackPositionTicks = "PlaybackPositionTicks"
         case playCount = "PlayCount"

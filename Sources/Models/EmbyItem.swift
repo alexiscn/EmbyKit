@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class EmbyItem: Codable, Hashable, Identifiable {
+public class EmbyItem: Codable, Hashable, Identifiable, @unchecked Sendable {
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case originalTitle = "OriginalTitle"
@@ -445,7 +445,7 @@ public struct UserData: Codable {
     public let itemId: String?
 }
 
-public struct MediaSourceInfo: Codable, Hashable {
+public struct MediaSourceInfo: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case `protocol` = "Protocol"
         case id = "Id"
@@ -533,7 +533,7 @@ public struct MediaSourceInfo: Codable, Hashable {
     }
 }
 
-public struct MediaStream: Codable, Hashable {
+public struct MediaStream: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case codec = "Codec"
         case codecTag = "CodecTag"

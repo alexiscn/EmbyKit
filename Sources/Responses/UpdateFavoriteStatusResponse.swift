@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UpdateFavoriteStatusResponse: Codable {
+public struct UpdateFavoriteStatusResponse: Codable, Sendable {
     
     public enum CodingKeys: String, CodingKey {
         case isFavorite = "IsFavorite"
@@ -18,13 +18,8 @@ public struct UpdateFavoriteStatusResponse: Codable {
     }
     
     public var isFavorite: Bool
-    
     public var playCount: Int
-    
     public var playbackPositionTicks: Int64
-    
     public var played: Bool
-    
     public var unPlayedItemCount: Int
-    
 }

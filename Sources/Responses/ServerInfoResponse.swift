@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ServerInfoResponse: Codable {
+public struct ServerInfoResponse: Codable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id = "Id"
         case localAddress = "LocalAddress"

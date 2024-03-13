@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ListItemResponse: Codable {
+public struct ListItemResponse: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case items = "Items"
         case totalRecordCount = "TotalRecordCount"
