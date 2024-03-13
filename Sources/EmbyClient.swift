@@ -354,6 +354,14 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getAlbumItems(parentId: String) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getAlbumItems(parentId: parentId) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getItems(params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
         request(.get, url: url, params: params, completion: completion)
@@ -371,6 +379,14 @@ extension EmbyClient {
         let url = baseURL.appendingPathComponent("Users/\(userId)/FavoriteItems/\(itemId)")
         let method: HTTPMethod = isFavorite ? .post: .delete
         request(method, url: url, completion: completion)
+    }
+    
+    public func updateFavoriteStatus(itemId: String, isFavorite: Bool) async throws -> UpdateFavoriteStatusResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            updateFavoriteStatus(itemId: itemId, isFavorite: isFavorite) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
     
     /// Mark item as played.
@@ -415,6 +431,14 @@ extension EmbyClient {
         })
     }
     
+    public func deleteItem(itemId: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            deleteItem(itemId: itemId) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getAlbums(parentId: String, startIndex: Int, completion: @escaping (Result<ListItemResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
         var params: [String: Any] = [:]
@@ -426,10 +450,26 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getAlbums(parentId: String, startIndex: Int) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getAlbums(parentId: parentId, startIndex: startIndex) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func hideFromResume(itemId: String, completion: @escaping (Result<MarkPlayedResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items/\(itemId)/HideFromResume")
         let params = ["Hide": true]
         request(.post, url: url, params: params, completion: completion)
+    }
+    
+    public func hideFromResume(itemId: String) async throws -> MarkPlayedResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            hideFromResume(itemId: itemId) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
     
     public func getStreamInfo(itemId: String, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool,  streamMetadata: EmbyStreamMetadata, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
@@ -454,6 +494,14 @@ extension EmbyClient {
         let jsonString = profile.json
         let headers = ["Content-Type": "application/json"]
         request(.post, url: url, params: params, headers: headers, requestBody: jsonString.data(using: .utf8), completion: completion)
+    }
+    
+    public func getStreamInfo(itemId: String, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool,  streamMetadata: EmbyStreamMetadata) async throws -> MediaSourcesResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getStreamInfo(itemId: itemId, startTimeTicks: startTimeTicks, isPlayback: isPlayback, autoOpenLiveStream: autoOpenLiveStream, streamMetadata: streamMetadata) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }
 
@@ -488,9 +536,25 @@ extension EmbyClient {
         request(.get, url: url, completion: completion)
     }
     
+    public func getItemSpecialFeatures(itemId: String) async throws -> [EmbyItem] {
+        try await withCheckedThrowingContinuation { continuation in
+            getItemSpecialFeatures(itemId: itemId) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getRecommendations(params: [String: Any], completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Movies/Recommendations")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getRecommendations(params: [String: Any]) async throws -> RecommendationsResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getRecommendations(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
     
     public func thumbnailURL(of item: EmbyItem, maxWidth: Int, maxHeight: Int) -> URL? {
@@ -553,6 +617,14 @@ extension EmbyClient {
         let headers = ["Content-Type": "application/json"]
         request(.post, url: url, params: params, headers: headers, requestBody: jsonString.data(using: .utf8), completion: completion)
     }
+    
+    public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64) async throws -> MediaSourcesResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getPlaybackInfo(item: item, startTimeTicks: startTimeTicks) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
 }
 
 // MARK: - Audio
@@ -593,7 +665,13 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
-    
+    public func getAdditionalVideoParts(itemId: String, params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getAdditionalVideoParts(itemId: itemId, params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
 }
 
 // MARK: - Genres
@@ -602,6 +680,14 @@ extension EmbyClient {
     public func getGenreItems(params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Genres")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getGenreItems(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getGenreItems(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }
 
@@ -682,9 +768,25 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
+    public func getPersons(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getPersons(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getArtists(params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Artists")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getArtists(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getArtists(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }
 
@@ -694,6 +796,14 @@ extension EmbyClient {
     public func getStudioItems(params: [String: Any], completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Studios")
         request(.get, url: url, params: params, completion: completion)
+    }
+    
+    public func getStudioItems(params: [String: Any]) async throws -> ListItemResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getStudioItems(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }
 
