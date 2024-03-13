@@ -23,6 +23,7 @@ public typealias EmbyItemsCompletion = (Result<[EmbyItem], Error>) -> Void
 /// `let client = EmbyClient(baseURL: URL(string: "http://example.com:8096")!)`
 ///
 /// ```
+@MainActor
 public class EmbyClient {
     
     private static var hasConfigured = false
