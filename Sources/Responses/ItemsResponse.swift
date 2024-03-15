@@ -14,4 +14,9 @@ public struct ItemsResponse: Codable {
     }
     public let items: [EmbyItem]
     public let count: Int
+    
+    public init(items: [EmbyItem], count: Int) {
+        self.items = items
+        self.count = count
+    }
 }

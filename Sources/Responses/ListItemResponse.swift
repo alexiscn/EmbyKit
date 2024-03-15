@@ -14,4 +14,9 @@ public struct ListItemResponse: Codable, Sendable {
     }
     public let items: [EmbyItem]
     public let totalRecordCount: Int
+    
+    public init(items: [EmbyItem], totalRecordCount: Int) {
+        self.items = items
+        self.totalRecordCount = totalRecordCount
+    }
 }

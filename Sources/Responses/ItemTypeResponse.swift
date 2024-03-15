@@ -23,4 +23,9 @@ public struct ItemTypeResponse: Codable, Sendable {
     
     public let items: [Item]
     public let totalRecordCount: Int
+    
+    public init(items: [Item], totalRecordCount: Int) {
+        self.items = items
+        self.totalRecordCount = totalRecordCount
+    }
 }
