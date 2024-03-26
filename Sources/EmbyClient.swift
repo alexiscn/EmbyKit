@@ -367,6 +367,15 @@ extension EmbyClient {
         request(.get, url: url, completion: completion)
     }
     
+    /// Get Emby item detail response.
+    /// - Parameters:
+    ///   - item: The id of Emby Item.
+    ///   - completion: Completion callback.
+    public func getItemDetail(itemId: String, completion: @escaping (Result<EmbyItem, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Users/\(userId)/Items/\(itemId)")
+        request(.get, url: url, completion: completion)
+    }
+    
     public func getAlbumItems(parentId: String, completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
         var params: [String: Any] = [:]
