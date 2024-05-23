@@ -23,7 +23,7 @@ public typealias EmbyItemsCompletion = (Result<[EmbyItem], Error>) -> Void
 /// `let client = EmbyClient(baseURL: URL(string: "http://example.com:8096")!)`
 ///
 /// ```
-public struct EmbyClient: Sendable {
+public class EmbyClient: @unchecked Sendable {
     
     private static var hasConfigured = false
     private static var client = ""
@@ -67,7 +67,7 @@ public struct EmbyClient: Sendable {
         configureAuthorizationHeader()
     }
     
-    private mutating func configureAuthorizationHeader() {
+    private func configureAuthorizationHeader() {
         let guid = UUID().uuidString
         var list = [String]()
         list.append(String(format: "Emby UserId=%@", userId.isEmpty ? guid : userId))
