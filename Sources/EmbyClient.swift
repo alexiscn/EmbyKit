@@ -49,6 +49,9 @@ public struct EmbyClient: Sendable {
     /// HTTP Header to authorize with Emby server
     public var authorizationHeader: String = ""
     
+    /// HTTP Custom User-Agent
+    public var customUserAgent: String = ""
+    
     /// Create EmbyClient instance with server base url. Please call `EmbyClient.configure` before create embyclient.
     /// - Parameters:
     ///   - baseURL: server base url, should contains port info. such as http://example.com:8096 or https://example.com:443 .
@@ -174,6 +177,9 @@ extension EmbyClient {
         httpheaders["X-Emby-Authorization"] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
+        }
+        if !customUserAgent.isEmpty {
+            httpheaders["User-Agent"] = customUserAgent
         }
         
         Just.post(url, json: json, headers: httpheaders, asyncCompletionHandler: { result in
@@ -901,6 +907,9 @@ extension EmbyClient {
         httpheaders["X-Emby-Authorization"] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
+        }
+        if !customUserAgent.isEmpty {
+            httpheaders["User-Agent"] = customUserAgent
         }
         
         Just.request(method, url: url, params: params, data: data, json: json,
