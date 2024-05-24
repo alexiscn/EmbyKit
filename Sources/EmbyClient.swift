@@ -885,6 +885,9 @@ extension EmbyClient {
             headers["X-Emby-Token"] = token
         }
         headers["Content-Type"] = "application/json"
+        if !customUserAgent.isEmpty {
+            headers["User-Agent"] = customUserAgent
+        }
         Just.post(url, headers: headers, requestBody: body)
     }
 }
