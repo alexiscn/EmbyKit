@@ -44,7 +44,11 @@ public class EmbyClient: @unchecked Sendable {
     public var accessTokenInvalidHandler: (@Sendable () -> Void)?
     
     /// Access token of current
-    public var accessToken: String? = nil
+    public var accessToken: String? = nil {
+        didSet {
+            configureAuthorizationHeader()
+        }
+    }
     
     /// HTTP Header to authorize with Emby server
     public var authorizationHeader: String = ""
