@@ -71,6 +71,7 @@ public class EmbyClient: @unchecked Sendable {
     private func configureAuthorizationHeader() {
         let guid = UUID().uuidString
         var list = [String]()
+        list.append(String(format: "MediaBrowser Token=%@", accessToken ?? ""))
         list.append(String(format: "Emby UserId=%@", userId.isEmpty ? guid : userId))
         list.append("Client=\(EmbyClient.client)")
         list.append(String(format: "Device=%@", EmbyClient.deviceName.urlEncoded))
