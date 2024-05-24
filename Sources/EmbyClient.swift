@@ -49,8 +49,8 @@ public class EmbyClient: @unchecked Sendable {
     /// HTTP Header to authorize with Emby server
     public var authorizationHeader: String = ""
     
-    /// HTTP Custom User-Agent
-    public var customUserAgent: String = ""
+    /// Client/Version
+    public var userAgent: String = ""
     
     /// Create EmbyClient instance with server base url. Please call `EmbyClient.configure` before create embyclient.
     /// - Parameters:
@@ -65,6 +65,7 @@ public class EmbyClient: @unchecked Sendable {
             fatalError("Please configure before using EmbyClient")
         }
         configureAuthorizationHeader()
+        userAgent = "\(EmbyClient.client)/\(EmbyClient.appVersion)"
     }
     
     private func configureAuthorizationHeader() {
@@ -178,9 +179,8 @@ extension EmbyClient {
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
-        if !customUserAgent.isEmpty {
-            httpheaders["User-Agent"] = customUserAgent
-        }
+        httpheaders["User-Agent"] = userAgent
+        
         
         Just.post(url, json: json, headers: httpheaders, asyncCompletionHandler: { result in
             DispatchQueue.main.async {
@@ -885,9 +885,7 @@ extension EmbyClient {
             headers["X-Emby-Token"] = token
         }
         headers["Content-Type"] = "application/json"
-        if !customUserAgent.isEmpty {
-            headers["User-Agent"] = customUserAgent
-        }
+        headers["User-Agent"] = userAgent
         Just.post(url, headers: headers, requestBody: body)
     }
 }
@@ -911,9 +909,7 @@ extension EmbyClient {
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
-        if !customUserAgent.isEmpty {
-            httpheaders["User-Agent"] = customUserAgent
-        }
+        httpheaders["User-Agent"] = userAgent
         
         Just.request(method, url: url, params: params, data: data, json: json,
                      headers: httpheaders, files: files, requestBody: requestBody, asyncProgressHandler: { progress in
