@@ -660,13 +660,13 @@ extension EmbyClient {
         request(.get, url: url, params: params, completion: completion)
     }
     
-    public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
+    public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(item.id)/PlaybackInfo")
         var params: [String: Any] = [:]
         params["UserId"] = userId
         params["StartTimeTicks"] = startTimeTicks
-        params["IsPlayback"] = true
-        params["AutoOpenLiveStream"] = true
+        params["IsPlayback"] = isPlayback
+        params["AutoOpenLiveStream"] = autoOpenLiveStream
         params["MaxStreamingBitrate"] = 40000000
         
         let builder = DeviceProfileBuilder()
@@ -676,9 +676,9 @@ extension EmbyClient {
         request(.post, url: url, params: params, headers: headers, requestBody: jsonString.data(using: .utf8), completion: completion)
     }
     
-    public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64) async throws -> MediaSourcesResponse {
+    public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool) async throws -> MediaSourcesResponse {
         try await withCheckedThrowingContinuation { continuation in
-            getPlaybackInfo(item: item, startTimeTicks: startTimeTicks) { result in
+            getPlaybackInfo(item: item, startTimeTicks: startTimeTicks, isPlayback: isPlayback, autoOpenLiveStream: autoOpenLiveStream) { result in
                 continuation.resume(with: result)
             }
         }
