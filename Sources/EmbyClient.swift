@@ -81,7 +81,7 @@ public class EmbyClient: @unchecked Sendable {
         list.append(String(format: "Device=%@", EmbyClient.deviceName.urlEncoded))
         list.append(String(format: "DeviceId=%@", EmbyClient.deviceId))
         list.append("Version=\(EmbyClient.appVersion)")
-        authorizationHeader = list.joined(separator: ",")
+        authorizationHeader = list.joined(separator: ", ")
     }
     
     /// Setup EmbyClient.
