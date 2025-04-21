@@ -1064,3 +1064,14 @@ public struct EmbyDisplayPreferencesUserSettings: Codable, Sendable {
     public var sortOrder: String?
     public var client: String?
 }
+
+public struct EmbyItemsCounts: Codable, Sendable {
+    enum CodingKeys: String, CodingKey {
+        case movieCount = "MovieCount"
+        case seriesCount = "SeriesCount"
+        case episodeCount = "EpisodeCount"
+    }
+    public let movieCount: Int
+    public let seriesCount: Int
+    public let episodeCount: Int
+}

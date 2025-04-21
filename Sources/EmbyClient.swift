@@ -566,6 +566,11 @@ extension EmbyClient {
 // MARK: - Items
 extension EmbyClient {
     
+    public func getItemsCounts(completion: @escaping (Result<EmbyItemsCounts, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Items/Counts")
+        request(.get, url: url, completion: completion)
+    }
+    
     /// Get similar items of some emby item.
     /// - Parameters:
     ///   - itemId: itemId.
