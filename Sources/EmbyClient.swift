@@ -900,19 +900,19 @@ extension EmbyClient {
     }
 }
 
-// MARK: - Internal
+// MARK: - HTTP Request
 extension EmbyClient {
         
-    func request<T: Codable>(_ method: HTTPMethod,
-                 url: URLComponentsConvertible,
-                 params: [String: Any] = [:],
-                 data: [String: Any] = [:],
-                 json: Any? = nil,
-                 headers: [String: String] = [:],
-                 files: [String: HTTPFile] = [:],
-                 requestBody: Data? = nil,
-                 progressHandler: ((HTTPProgress) -> Void)? = nil,
-                 completion: @escaping (Result<T, Error>) -> Void) {
+    public func request<T: Codable>(_ method: HTTPMethod,
+                                    url: URLComponentsConvertible,
+                                    params: [String: Any] = [:],
+                                    data: [String: Any] = [:],
+                                    json: Any? = nil,
+                                    headers: [String: String] = [:],
+                                    files: [String: HTTPFile] = [:],
+                                    requestBody: Data? = nil,
+                                    progressHandler: ((HTTPProgress) -> Void)? = nil,
+                                    completion: @escaping (Result<T, Error>) -> Void) {
         
         var httpheaders = headers
         httpheaders["X-Emby-Authorization"] = authorizationHeader
