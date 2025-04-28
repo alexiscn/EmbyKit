@@ -149,6 +149,8 @@ public class EmbyItem: Codable, Hashable, Identifiable, @unchecked Sendable {
         case songCount = "SongCount"
         case musicVideoCount = "MusicVideoCount"
         case subviews = "Subviews"
+        case primaryImageItemId = "PrimaryImageItemId"
+        case primaryImageTag = "PrimaryImageTag"
     }
     
     public var name: String
@@ -291,6 +293,8 @@ public class EmbyItem: Codable, Hashable, Identifiable, @unchecked Sendable {
     public var songCount: Int?
     public var musicVideoCount: Int?
     public var subviews: [String]?
+    public var primaryImageItemId: String?
+    public var primaryImageTag: String?
     
     public init(name: String, id: String) {
         self.name = name
