@@ -660,6 +660,14 @@ extension EmbyClient {
         return url.absoluteString.appending("/\(type.rawValue)?maxWidth=\(width)&tag=\(tag)&quality=90")
     }
     
+    public func getItemTypes(params: [String: Any]) async throws -> ItemTypeResponse {
+        try await withCheckedThrowingContinuation { continuation in
+            getItemTypes(params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getItemTypes(params: [String: Any], completion: @escaping (Result<ItemTypeResponse, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("ItemTypes")
         request(.get, url: url, params: params, completion: completion)
