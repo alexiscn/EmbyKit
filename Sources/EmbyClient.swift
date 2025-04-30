@@ -402,9 +402,10 @@ extension EmbyClient {
         }
     }
     
-    public func getItems(params: [String: Any], completion: @escaping EmbyListCompletion) {
+    @discardableResult
+    public func getItems(params: [String: Any], completion: @escaping EmbyListCompletion) -> HTTPResult {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
-        request(.get, url: url, params: params, completion: completion)
+        return request(.get, url: url, params: params, completion: completion)
     }
     
     public func getItems(params: [String: Any]) async throws -> ListItemResponse {
@@ -668,9 +669,10 @@ extension EmbyClient {
         }
     }
     
-    public func getItemTypes(params: [String: Any], completion: @escaping (Result<ItemTypeResponse, Error>) -> Void) {
+    @discardableResult
+    public func getItemTypes(params: [String: Any], completion: @escaping (Result<ItemTypeResponse, Error>) -> Void) -> HTTPResult {
         let url = baseURL.appendingPathComponent("ItemTypes")
-        request(.get, url: url, params: params, completion: completion)
+        return request(.get, url: url, params: params, completion: completion)
     }
     
     public func getPlaybackInfo(item: EmbyItem, startTimeTicks: Int64, isPlayback: Bool, autoOpenLiveStream: Bool, completion: @escaping (Result<MediaSourcesResponse, Error>) -> Void) {
@@ -911,6 +913,7 @@ extension EmbyClient {
 // MARK: - HTTP Request
 extension EmbyClient {
         
+    @discardableResult
     public func request<T: Codable>(_ method: HTTPMethod,
                                     url: URLComponentsConvertible,
                                     params: [String: Any] = [:],
@@ -920,7 +923,7 @@ extension EmbyClient {
                                     files: [String: HTTPFile] = [:],
                                     requestBody: Data? = nil,
                                     progressHandler: ((HTTPProgress) -> Void)? = nil,
-                                    completion: @escaping (Result<T, Error>) -> Void) {
+                                    completion: @escaping (Result<T, Error>) -> Void) -> HTTPResult {
         
         var httpheaders = headers
         httpheaders["X-Emby-Authorization"] = authorizationHeader
@@ -929,7 +932,7 @@ extension EmbyClient {
         }
         httpheaders["User-Agent"] = userAgent
         
-        Just.request(method, url: url, params: params, data: data, json: json,
+        let result = Just.request(method, url: url, params: params, data: data, json: json,
                      headers: httpheaders, files: files, requestBody: requestBody, asyncProgressHandler: { progress in
             DispatchQueue.main.async {
                 progressHandler?(progress)
@@ -948,6 +951,7 @@ extension EmbyClient {
                                     completion: completion)
             }
         })
+        return result
     }
     
     func handleResponse<T: Codable>(_ response: HTTPResult,
