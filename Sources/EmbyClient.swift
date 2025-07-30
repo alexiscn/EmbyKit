@@ -883,22 +883,46 @@ extension EmbyClient {
 // MARK: - Sessions
 extension EmbyClient {
     
-    public func reportSessionStart(info: PlaybackStartInfo) {
+    public func reportSessionStart(info: PlaybackStartInfo, completion: @escaping ((Result<Void, Error>) -> Void)) {
         let url = baseURL.appendingPathComponent("Sessions/Playing")
-        report(url: url, body: info.json.data(using: .utf8))
+        report(url: url, body: info.json.data(using: .utf8), completion: completion)
     }
     
-    public func reportSessionProgress(info: PlaybackProgressInfo) {
+    public func reportSessionStart(info: PlaybackStartInfo) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            reportSessionStart(info: info) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    public func reportSessionProgress(info: PlaybackProgressInfo, completion: @escaping ((Result<Void, Error>) -> Void)) {
         let url = baseURL.appendingPathComponent("Sessions/Playing/Progress")
-        report(url: url, body: info.json.data(using: .utf8))
+        report(url: url, body: info.json.data(using: .utf8), completion: completion)
     }
     
-    public func reportSessionStopped(info: PlaybackStopInfo) {
+    public func reportSessionProgress(info: PlaybackProgressInfo) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            reportSessionProgress(info: info) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    public func reportSessionStopped(info: PlaybackStopInfo, completion: @escaping ((Result<Void, Error>) -> Void)) {
         let url = baseURL.appendingPathComponent("Sessions/Playing/Stopped")
-        report(url: url, body: info.json.data(using: .utf8))
+        report(url: url, body: info.json.data(using: .utf8), completion: completion)
     }
     
-    private func report(url: URL, body: Data?) {
+    public func reportSessionStopped(info: PlaybackStopInfo) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            reportSessionStopped(info: info) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    private func report(url: URL, body: Data?, completion: @escaping ((Result<Void, Error>) -> Void)) {
         var headers = [String: String]()
         headers["X-Emby-Authorization"] = authorizationHeader
         if let token = accessToken {
@@ -906,7 +930,15 @@ extension EmbyClient {
         }
         headers["Content-Type"] = "application/json"
         headers["User-Agent"] = userAgent
-        Just.post(url, headers: headers, requestBody: body)
+        Just.post(url, headers: headers, requestBody: body, asyncCompletionHandler: { result in
+            DispatchQueue.main.async {
+                if let error = result.error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        })
     }
 }
 
