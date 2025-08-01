@@ -1064,7 +1064,7 @@ public struct EmbyDisplayPreferencesUserSettings: Codable, Sendable {
     }
     
     public let id: String
-    public var customPrefs: [String: String]?
+    public var customPrefs: [String: String?]?
     public var sortOrder: String?
     public var client: String?
 }
