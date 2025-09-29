@@ -1015,6 +1015,7 @@ public struct PlaybackProgressInfo: Codable, Hashable, Sendable {
         case eventName = "EventName"
         case playlistIndex = "PlaylistIndex"
         case playlistLength = "PlaylistLength"
+        case runtimeTicks = "RunTimeTicks"
     }
     public var volumeLevel: Int?
     public var isMuted: Bool?
@@ -1035,6 +1036,7 @@ public struct PlaybackProgressInfo: Codable, Hashable, Sendable {
     public var eventName: EmbyEventName?
     public var playlistIndex: Int?
     public var playlistLength: Int?
+    public var runtimeTicks: Int64?
     
     public init() {
         
