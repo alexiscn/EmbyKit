@@ -584,6 +584,9 @@ public struct MediaStream: Codable, Hashable, Sendable {
         case pixelFormat = "PixelFormat"
         case level = "Level"
         case isAnamorphic = "IsAnamorphic"
+        case extendedVideoType = "ExtendedVideoType"
+        case extendedVideoSubType = "ExtendedVideoSubType"
+        case extendedVideoSubTypeDescription = "ExtendedVideoSubTypeDescription"
     }
         
     public var codec: String?
@@ -633,6 +636,9 @@ public struct MediaStream: Codable, Hashable, Sendable {
     public var pixelFormat: String?
     public var level: Double?
     public var isAnamorphic: Bool?
+    public var extendedVideoType: String?
+    public var extendedVideoSubType: String?
+    public var extendedVideoSubTypeDescription: String?
     
     public init() {
         
