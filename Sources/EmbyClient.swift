@@ -650,7 +650,7 @@ extension EmbyClient {
             return URL(string: urlString)
         } else if let tag = item.parentBackdropImageTags?.first, let parentBackdropItemId = item.parentBackdropItemId {
             let url = baseURL.appendingPathComponent("Items/\(parentBackdropItemId)/Images")
-            let urlString = url.absoluteString.appending("/0?maxWidth=\(maxWidth)&tag=\(tag)&quality=90")
+            let urlString = url.absoluteString.appending("/Backdrop/0?maxWidth=\(maxWidth)&tag=\(tag)&quality=90")
             return URL(string: urlString)
         }
         return nil
