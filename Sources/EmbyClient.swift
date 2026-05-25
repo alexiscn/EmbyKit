@@ -572,6 +572,32 @@ extension EmbyClient {
         request(.get, url: url, completion: completion)
     }
     
+    public func refreshLibrary(libraryId: String, params: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
+        let url = baseURL.appendingPathComponent("Items/\(libraryId)/Refresh")
+        var httpheaders = [String: String]()
+        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        if let token = accessToken {
+            httpheaders["X-Emby-Token"] = token
+        }
+        Just.request(.post, url: url, params: params, headers: httpheaders, asyncCompletionHandler: { response in
+            DispatchQueue.main.async {
+                if let error = response.error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        })
+    }
+    
+    public func refreshLibrary(libraryId: String, params: [String: Any]) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            refreshLibrary(libraryId: libraryId, params: params) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     /// Get similar items of some emby item.
     /// - Parameters:
     ///   - itemId: itemId.
