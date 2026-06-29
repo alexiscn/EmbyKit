@@ -387,6 +387,14 @@ extension EmbyClient {
         request(.get, url: url, completion: completion)
     }
     
+    public func getItemDetail(itemId: String) async throws -> EmbyItem {
+        try await withCheckedThrowingContinuation { continuation in
+            getItemDetail(itemId: itemId) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
     public func getAlbumItems(parentId: String, completion: @escaping EmbyListCompletion) {
         let url = baseURL.appendingPathComponent("Users/\(userId)/Items")
         var params: [String: Any] = [:]
