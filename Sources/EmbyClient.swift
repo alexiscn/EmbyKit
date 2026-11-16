@@ -31,6 +31,8 @@ public class EmbyClient: @unchecked Sendable {
     private static var deviceId = ""
     private static var deviceName = ""
     
+    public static var isJellyfin = false
+    
     /// Emby server base url. MUST contains port
     public var baseURL: URL
     
@@ -52,6 +54,11 @@ public class EmbyClient: @unchecked Sendable {
     
     /// HTTP Header to authorize with Emby server
     public var authorizationHeader: String = ""
+    
+    /// HTTP Header Key to authorize with Emby/Jellyfin server. For Emby the value is "X-Emby-Authorization", for Jellyfin the value is "Authorization"
+    public static var HTTPAuthorizationHeaderKey: String {
+        isJellyfin ? "Authorization": "X-Emby-Authorization"
+    }
     
     /// Client/Version
     public var userAgent: String = ""
@@ -75,12 +82,22 @@ public class EmbyClient: @unchecked Sendable {
     private func configureAuthorizationHeader() {
         let guid = UUID().uuidString
         var list = [String]()
-        list.append(String(format: "MediaBrowser Token=%@", accessToken ?? ""))
-        list.append(String(format: "Emby UserId=%@", userId.isEmpty ? guid : userId))
-        list.append("Client=\(EmbyClient.client)")
-        list.append(String(format: "Device=%@", EmbyClient.deviceName.urlEncoded))
-        list.append(String(format: "DeviceId=%@", EmbyClient.deviceId))
-        list.append("Version=\(EmbyClient.appVersion)")
+        if Self.isJellyfin {
+            list.append("MediaBrowser Client=\"\(EmbyClient.client)\"")
+            list.append(String(format: "Device=\"%@\"", EmbyClient.deviceName.urlEncoded))
+            list.append(String(format: "DeviceId=\"%@\"", EmbyClient.deviceId))
+            list.append("Version=\"\(EmbyClient.appVersion)\"")
+            if let accessToken, !accessToken.isEmpty {
+                list.append(String(format: "MediaBrowser Token=\"%@\"", accessToken))
+            }
+        } else {
+            list.append(String(format: "MediaBrowser Token=%@", accessToken ?? ""))
+            list.append(String(format: "Emby UserId=%@", userId.isEmpty ? guid : userId))
+            list.append("Client=\(EmbyClient.client)")
+            list.append(String(format: "Device=%@", EmbyClient.deviceName.urlEncoded))
+            list.append(String(format: "DeviceId=%@", EmbyClient.deviceId))
+            list.append("Version=\(EmbyClient.appVersion)")
+        }
         authorizationHeader = list.joined(separator: ", ")
     }
     
@@ -180,7 +197,7 @@ extension EmbyClient {
         json["NewPw"] = newPassword
         
         var httpheaders = [String: String]()
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
@@ -249,7 +266,7 @@ extension EmbyClient {
         }
         
         var httpheaders = [String: String]()
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
@@ -465,7 +482,7 @@ extension EmbyClient {
     public func deleteItem(itemId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(itemId)/Delete")
         var httpheaders = [String: String]()
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
@@ -491,7 +508,7 @@ extension EmbyClient {
     public func delete(itemId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(itemId)")
         var httpheaders = [String: String]()
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
@@ -583,7 +600,7 @@ extension EmbyClient {
     public func refreshLibrary(libraryId: String, params: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
         let url = baseURL.appendingPathComponent("Items/\(libraryId)/Refresh")
         var httpheaders = [String: String]()
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
@@ -958,7 +975,7 @@ extension EmbyClient {
     
     private func report(url: URL, body: Data?, completion: @escaping ((Result<Void, Error>) -> Void)) {
         var headers = [String: String]()
-        headers["X-Emby-Authorization"] = authorizationHeader
+        headers[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             headers["X-Emby-Token"] = token
         }
@@ -992,7 +1009,7 @@ extension EmbyClient {
                                     completion: @escaping (Result<T, Error>) -> Void) -> HTTPResult {
         
         var httpheaders = headers
-        httpheaders["X-Emby-Authorization"] = authorizationHeader
+        httpheaders[Self.HTTPAuthorizationHeaderKey] = authorizationHeader
         if let token = accessToken {
             httpheaders["X-Emby-Token"] = token
         }
