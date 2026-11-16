@@ -88,7 +88,7 @@ public class EmbyClient: @unchecked Sendable {
             list.append(String(format: "DeviceId=\"%@\"", EmbyClient.deviceId))
             list.append("Version=\"\(EmbyClient.appVersion)\"")
             if let accessToken, !accessToken.isEmpty {
-                list.append(String(format: "MediaBrowser Token=\"%@\"", accessToken))
+                list.append(String(format: "Token=\"%@\"", accessToken))
             }
         } else {
             list.append(String(format: "MediaBrowser Token=%@", accessToken ?? ""))
